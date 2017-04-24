@@ -15,7 +15,7 @@ defmodule Qiniu.HTTP do
   defp request(method, url, body, opts) do
     headers = Keyword.merge(opts[:headers] || [], [
       accept: "application/json",
-      connection: "close",
+      # connection: "close",
       user_agent: Qiniu.config[:user_agent],
     ])
 
