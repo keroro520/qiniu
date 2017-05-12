@@ -39,7 +39,7 @@ defmodule Qiniu.Resumer do
   defp mkfile_uri(file_size, opts)  do
     path = Qiniu.config[:up_host] <> "/mkfile/#{file_size}"
 
-    if key = opts[:key],             do: path = path <> "/key/#{key}"
+    if key = opts[:key],             do: path = path <> "/key/#{Base.url_encode64(key)}"
     if mime_type = opts[:mime_type], do: path = path <> "/mimeType/#{mime_type}"
     if user_vars = opts[:user_vars], do: path = path <> "/x:user-var/#{user_vars}"
     path
