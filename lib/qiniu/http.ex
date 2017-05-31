@@ -20,8 +20,8 @@ defmodule Qiniu.HTTP do
     ])
 
     response = case method do
-      :get -> HTTPoison.get! url, headers
-      :post -> HTTPoison.post! url, body, headers
+      :get -> HTTPoison.get! url, headers, opts
+      :post -> HTTPoison.post! url, body, headers, opts
     end
 
     if opts[:raw] do
