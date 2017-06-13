@@ -25,7 +25,7 @@ defmodule Qiniu.Resumer do
       authorization: "UpToken " <> uptoken,
     ]
 
-    HTTP.post(uri, chunk, [headers: headers], opts)
+    HTTP.post(uri, chunk, [{:headers, headers} | opts])
   end
 
   defp mkblk_uri(block_size) do
