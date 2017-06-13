@@ -6,26 +6,26 @@ defmodule Qiniu.Resumer do
   alias Qiniu.HTTP
   alias Qiniu.PutPolicy
 
-  def mkblk(%PutPolicy{}=put_policy, block_size, first_chunk) do
-    post(mkblk_uri(block_size), put_policy, first_chunk)
+  def mkblk(%PutPolicy{}=put_policy, block_size, first_chunk, opts \\ []) do
+    post(mkblk_uri(block_size), put_policy, first_chunk, opts)
   end
 
-  def bput(%PutPolicy{}=put_policy, ctx, offset, next_chunk) do
-    post(bput_uri(ctx, offset), put_policy, next_chunk)
+  def bput(%PutPolicy{}=put_policy, ctx, offset, next_chunk, opts \\ []) do
+    post(bput_uri(ctx, offset), put_policy, next_chunk, opts)
   end
 
   def mkfile(%PutPolicy{}=put_policy, file_size, ctx_list, opts \\ []) do
-    post(mkfile_uri(file_size, opts), put_policy, ctx_list)
+    post(mkfile_uri(file_size, opts), put_policy, ctx_list, opts)
   end
 
-  defp post(uri, put_policy, chunk) do
+  defp post(uri, put_policy, chunk, opts) do
     uptoken = Qiniu.Auth.generate_uptoken(put_policy)
     headers = [
       content_type: "application/octet-stream",
       authorization: "UpToken " <> uptoken,
     ]
 
-    HTTP.post(uri, chunk, headers: headers)
+    HTTP.post(uri, chunk, [{:headers, headers} | opts])
   end
 
   defp mkblk_uri(block_size) do
