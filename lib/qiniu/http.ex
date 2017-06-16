@@ -9,6 +9,10 @@ defmodule Qiniu.HTTP do
     request(:get, url, opts)
   end
 
+  def head(url, opts \\ []) do
+    request(:head, url, [{:raw, true} | opts])
+  end
+
   defp request(method, url, opts) do
     request(method, url, "", opts)
   end
@@ -20,7 +24,8 @@ defmodule Qiniu.HTTP do
     ])
 
     response = case method do
-      :get -> HTTPoison.get! url, headers, opts
+      :head -> HTTPoison.head! url, headers, opts
+      :get  -> HTTPoison.get!  url, headers, opts
       :post -> HTTPoison.post! url, body, headers, opts
     end
 
